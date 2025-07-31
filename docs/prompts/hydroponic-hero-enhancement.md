@@ -1,5 +1,5 @@
 # 🚀 Hydroponic Hero 2.0: Room-Based Enhancement Request
-*ChatGPT Agent Implementation Spec - 45 minute targeted enhancement with image generation*
+*ChatGPT Agent Implementation Spec - Comprehensive room-based enhancement with image generation*
 
 ## 🎯 **Mission Objective**
 Transform the current basic Hydroponic Hero game into a **room-based hydroponics management experience** where players navigate between 4 distinct hydroponics rooms, each containing multiple plants that require direct watering interaction using cursor-based gameplay.
@@ -291,22 +291,22 @@ hydroponic-hero/
 
 ## 🎯 **Implementation Priority Order**
 
-1. **Asset Generation & Room System** (20 minutes)
+1. **Asset Generation & Room System**
    - Generate 4 room backdrop images and 48 plant state images
    - Implement room navigation using existing room system foundation
    - Create room-specific plant variants and positioning
 
-2. **Cursor & Interaction Enhancement** (10 minutes)
+2. **Cursor & Interaction Enhancement**
    - Implement watering can cursor system
    - Add direct plant clicking using existing interaction framework
    - Enhanced visual feedback with animations
 
-3. **Game Logic Expansion** (10 minutes)
+3. **Game Logic Expansion**
    - Expand plant system to 16 plants across 4 rooms
    - Implement room difficulty scaling using existing architecture
    - Update timer and power-up mechanics for multi-room gameplay
 
-4. **Polish & Integration** (5 minutes)
+4. **Polish & Integration**
    - **Agent play-testing**: Validate balance and difficulty
    - Mobile responsiveness and cross-browser testing
    - Performance optimization with asset loading
@@ -367,7 +367,6 @@ When complete, provide:
 
 ---
 
-**Time Budget**: 45 minutes real-time  
 **Complexity Level**: Significant architectural enhancement with asset generation  
 **Goal**: Transform simple plant care into engaging room-based hydroponics management game
 
