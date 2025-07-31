@@ -1,0 +1,258 @@
+/* Galaxy Garden Crush Styles */
+
+/* Back to Home Button */
+.back-to-home {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(233, 196, 106, 0.9);
+  color: var(--color-teal);
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-family: 'IBM Plex Sans', Arial, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(233, 196, 106, 0.3);
+}
+
+.back-to-home:hover {
+  background: var(--color-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Colour palette */
+:root {
+  --color-teal: #264653;
+  --color-gold: #E9C46A;
+  --color-offwhite: #F4EAD3;
+  --color-rust: #B25F4E;
+  --color-bg: var(--color-teal);
+  --color-accent: var(--color-gold);
+  --color-text: var(--color-offwhite);
+  --tile-gap: 4px;
+}
+
+/* High contrast mode flips background and text for greater legibility */
+body.high-contrast {
+  --color-bg: #000;
+  --color-text: #fff;
+  --color-accent: #ffdd57;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg);
+  /* Space starfield background image for immersive feel */
+  background-image: url('assets/bg/bg_starfield.jpg');
+  background-size: cover;
+  background-position: center;
+  color: var(--color-text);
+  font-family: 'IBM Plex Sans', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  /* Allow scrolling if content exceeds viewport, so the grid remains visible. */
+  overflow-y: auto;
+}
+
+/* Loader overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.overlay.hidden {
+  display: none;
+}
+.loader-content {
+  text-align: center;
+}
+.progress-bar {
+  width: 250px;
+  height: 8px;
+  background-color: rgba(255,255,255,0.2);
+  border-radius: 4px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+#progress-fill {
+  width: 0%;
+  height: 100%;
+  background-color: var(--color-gold);
+  transition: width 0.2s ease;
+}
+
+/* Hidden utility */
+.hidden {
+  display: none !important;
+}
+
+/* Top bar */
+.top-bar {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+}
+
+.top-bar h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--color-accent);
+}
+
+#controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+
+#controls input[type="range"] {
+  width: 80px;
+}
+
+#muteBtn {
+  background: none;
+  border: none;
+  color: var(--color-accent);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.contrast-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Status bar */
+.status-bar {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+  font-size: 0.9rem;
+  background-color: rgba(0,0,0,0.1);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.status-bar span {
+  margin: 0.2rem 0;
+}
+
+/* Grid container */
+#grid-container {
+  position: relative;
+  width: 90vmin;
+  height: 90vmin;
+  /* Ensure the grid fits within the viewport. Limit height based on available space to avoid being clipped by the viewport. */
+  max-width: 640px;
+  max-height: calc(100vh - 200px);
+  /* Hydroponics bay panel texture behind tiles */
+  background-image: url('assets/bg/bg_panel.jpg');
+  background-size: cover;
+  background-position: center;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  gap: var(--tile-gap);
+  margin: 0 auto;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+
+/* Tiles */
+.tile {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+
+  /* Debug border to ensure tiles are visible even if background images fail to load. */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.tile.selected {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+  z-index: 2;
+}
+.tile.iced::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(200, 230, 255, 0.35);
+  backdrop-filter: blur(1px);
+  border: 2px solid rgba(255,255,255,0.4);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+/* Modal styling */
+#modal .modal-content {
+  background-color: var(--color-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 90vw;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+#modal h2 {
+  margin-top: 0;
+  font-family: 'Orbitron', sans-serif;
+  color: var(--color-accent);
+}
+#modal button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-rust);
+  color: var(--color-offwhite);
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+#modal button:hover {
+  background-color: var(--color-gold);
+  color: var(--color-teal);
+}
+
+@media (min-width: 700px) {
+  #grid-container {
+    width: 640px;
+    height: 640px;
+  }
+}

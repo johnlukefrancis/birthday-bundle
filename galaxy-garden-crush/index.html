@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galaxy&nbsp;Garden&nbsp;Crush</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Fall back to system fonts if custom fonts fail to load. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <a href="../homepage/index.html" class="back-to-home" aria-label="Back to Home">← Home</a>
+  
+  <!-- Loading overlay -->
+  <div id="loader" class="overlay">
+    <div class="loader-content">
+      <p>Loading&nbsp;assets… <span id="load-progress">0%</span></p>
+      <div class="progress-bar"><div id="progress-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- Game container -->
+  <div id="game" class="hidden">
+    <header class="top-bar">
+      <h1>Galaxy&nbsp;Garden&nbsp;Crush</h1>
+      <div id="controls">
+        <label class="contrast-toggle"><input type="checkbox" id="contrastToggle"> High&nbsp;Contrast</label>
+        <label class="volume-control">
+          Volume
+          <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
+        </label>
+        <button id="muteBtn" aria-label="Mute">🔈</button>
+      </div>
+    </header>
+    <section class="status-bar">
+      <span id="level-name">Level&nbsp;1</span>
+      <span id="goal-text"></span>
+      <span id="score-text">Score: 0</span>
+      <span id="moves-text"></span>
+      <span id="timer-text"></span>
+    </section>
+    <main id="grid-container"></main>
+  </div>
+
+  <!-- Modal for level completion/failure -->
+  <div id="modal" class="overlay hidden">
+    <div class="modal-content">
+      <h2 id="modal-title"></h2>
+      <p id="modal-message"></p>
+      <button id="modal-close">Continue</button>
+    </div>
+  </div>
+
+  <script src="sprites.js"></script>
+  <script src="engine.js"></script>
+  <script src="game.js"></script>
+  <script>
+    // Register the service worker for offline support
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js').catch(function(e) {
+        console.error('Service worker registration failed:', e);
+      });
+    }
+  </script>
+</body>
+</html>
