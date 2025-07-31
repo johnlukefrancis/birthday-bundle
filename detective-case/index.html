@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Who Stole Mom’s Garden Rose?</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=Archivo+Black&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Back to Home Button -->
+    <a href="../homepage/index.html" class="back-to-home" aria-label="Back to Home">← Home</a>
+    <div id="app">
+      <!-- Title / Cold open -->
+      <section id="start" class="section active" aria-label="Start">
+        <div class="inner">
+          <img
+            src="assets/pattern.jpg"
+            alt="Abstract swirling pattern in a 1970s color palette"
+            class="hero-image"
+          />
+          <h1>Who Stole Mom’s Garden Rose?</h1>
+          <p class="tagline">
+            A vintage‑modern, choose‑your‑own‑detective adventure
+          </p>
+          <button id="btn-start" class="choice">Start Investigation</button>
+        </div>
+      </section>
+
+      <!-- First decision -->
+      <section id="decision" class="section" aria-label="First decision">
+        <div class="inner">
+          <h2 class="section-title">A crime most foul!</h2>
+          <p>
+            Detective Dorothy, your prized rose bush has vanished in the night.
+            Will you comb the garden for clues, confront the neighbours or call
+            on Starfleet for assistance?
+          </p>
+          <div class="choices">
+            <button class="choice" data-next="inspect">Inspect the garden</button>
+            <button class="choice" data-next="interrogate">
+              Interrogate the neighbours
+            </button>
+            <button class="choice" data-next="starfleet">Call Starfleet</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Inspect branch -->
+      <section id="inspect" class="section" aria-label="Inspect the garden">
+        <div class="inner">
+          <h2 class="section-title">Follow the trail</h2>
+          <p>
+            You kneel by the garden bed and spot a trail of muddy footprints
+            snaking towards the tool shed. A crimson petal flutters on the
+            evening breeze. What’s your next move?
+          </p>
+          <div class="choices">
+            <button class="choice" data-next="end_recovered">
+              Follow the footprints to the shed
+            </button>
+            <button class="choice" data-next="end_cold">
+              Analyse the petal in the kitchen
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Interrogate branch -->
+      <section id="interrogate" class="section" aria-label="Interrogate the neighbours">
+        <div class="inner">
+          <h2 class="section-title">Neighbourly questions</h2>
+          <p>
+            You stride to your neighbour’s yard. Mr. Gnome hums Marvin Gaye’s
+            “Let’s Get It Gnome” as he waters his petunias. Do you confront him
+            or poke around his compost heap?
+          </p>
+          <div class="choices">
+            <button class="choice" data-next="end_recovered">
+              Ask him about the missing rose
+            </button>
+            <button class="choice" data-next="end_cold">
+              Check the compost heap
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Starfleet branch -->
+      <section id="starfleet" class="section" aria-label="Call Starfleet">
+        <div class="inner">
+          <h2 class="section-title">Hailing Starfleet</h2>
+          <p>
+            With a dramatic flip of your communicator, you hail Captain Brad of
+            the USS Birthday. Do you beam up to consult with Spock or stay and
+            scan with your tricorder?
+          </p>
+          <div class="choices">
+            <button class="choice" data-next="end_cold">Beam up to the Enterprise</button>
+            <button class="choice" data-next="end_beamed">Use the tricorder to scan the area</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Ending: Rose recovered -->
+      <section id="end_recovered" class="section" aria-label="Rose recovered">
+        <div class="inner">
+          <h2 class="section-title">Case closed: Rose Recovered</h2>
+          <p class="log">
+            Captain’s log, supplemental: Detective Dorothy has retrieved the
+            prized rose bush and restored peace to the garden. The crew
+            celebrates with a soul groove as another case is closed.
+          </p>
+          <p class="birthday">Happy 67th, Dorothy – You cracked the case!</p>
+          <button id="restart-recovered" class="choice">Play again</button>
+        </div>
+        <!-- Confetti canvas for celebration -->
+        <canvas id="confetti-recovered" class="confetti-canvas" aria-hidden="true"></canvas>
+      </section>
+
+      <!-- Ending: Culprit beamed away -->
+      <section id="end_beamed" class="section" aria-label="Culprit beamed away">
+        <div class="inner">
+          <h2 class="section-title">Case closed: Culprit Beamed Away</h2>
+          <p class="log">
+            Captain’s log, stardate 67th birthday: A mischievous alien has been
+            located and beamed away. Dorothy’s rose bush is safe aboard the
+            Enterprise, and the crew salutes her quick thinking.
+          </p>
+          <p class="birthday">Happy 67th, Dorothy – You cracked the case!</p>
+          <button id="restart-beamed" class="choice">Play again</button>
+        </div>
+        <canvas id="confetti-beamed" class="confetti-canvas" aria-hidden="true"></canvas>
+      </section>
+
+      <!-- Ending: Case goes cold -->
+      <section id="end_cold" class="section" aria-label="Case goes cold">
+        <div class="inner">
+          <h2 class="section-title">Case Goes Cold</h2>
+          <p class="log">
+            Captain’s log, personal: Despite valiant efforts, the trail has gone
+            cold and the rose remains at large. Nevertheless, Dorothy’s
+            determination endures, ready for the next investigation.
+          </p>
+          <p class="birthday">Happy 67th, Dorothy – You cracked the case!</p>
+          <button id="restart-cold" class="choice">Try again</button>
+        </div>
+      </section>
+    </div>
+
+    <!-- Audio elements for Easter eggs -->
+    <audio id="audio-dun" src="assets/dun_dun.wav" preload="auto"></audio>
+    <audio id="audio-beep" src="assets/beep.wav" preload="auto"></audio>
+
+    <!-- Hidden Easter egg buttons -->
+    <button id="easter-dun" class="easter" aria-label="Law & Order sound"></button>
+    <button id="easter-beep" class="easter" aria-label="NCC‑1701 console beep">★</button>
+
+    <!-- Audio controls (music) -->
+    <div id="music-controls" class="music-controls" aria-label="Music controls">
+      <div class="music-row">
+        <span class="label">Music:</span>
+        <button id="btn-marvin" class="music-toggle active" data-loop="marvin">
+          Soul Groove (Marvin)
+        </button>
+        <button id="btn-withers" class="music-toggle" data-loop="withers">
+          Soul Groove (Withers)
+        </button>
+      </div>
+      <div class="music-row">
+        <label for="volume-slider" class="label">Volume:</label>
+        <input
+          id="volume-slider"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0.5"
+          aria-label="Music volume"
+        />
+      </div>
+    </div>
+
+    <!-- Main script -->
+    <script src="main.js"></script>
+  </body>
+</html>

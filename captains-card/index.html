@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--
+      This interactive birthday card is built entirely with vanilla HTML, CSS and
+      JavaScript.  It uses the Google hosted fonts Orbitron for headings and
+      IBM Plex Sans for body copy, GSAP for animations and a lightweight
+      confetti library embedded inline.  All images and audio assets are local
+      so the booklet works perfectly offline.  See README.md for full details.
+    -->
+    <title>Captain’s Birthday Log</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;700&family=Orbitron:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Back to Home Button -->
+    <a href="../homepage/index.html" class="back-to-home" aria-label="Back to Home">← Home</a>
+    <!-- Landing / Warp Gate Screen -->
+    <div id="landing" class="screen">
+      <canvas id="starfield" aria-hidden="true"></canvas>
+      <div class="warp-overlay" aria-hidden="true"></div>
+      <button id="enter-btn" class="enter-btn" aria-label="Enter Captain’s Birthday Log">
+        Tap to enter Captain’s Birthday Log
+      </button>
+    </div>
+
+    <!-- Booklet Wrapper (hidden at first) -->
+    <div id="booklet" class="hidden">
+      <!-- Controls -->
+      <button id="audio-mode-btn" class="audio-btn" aria-label="Change audio mode"></button>
+      <!-- Pages container -->
+      <div id="pages" class="pages">
+        <!-- Individual page elements are created via JavaScript in main.js -->
+      </div>
+    </div>
+
+    <!-- Audio Elements (preloaded when necessary) -->
+    <audio id="beep-sfx" src="assets/sfx/beep.mp3" preload="auto"></audio>
+    <audio id="turn-sfx" src="assets/sfx/pageturn.mp3" preload="auto"></audio>
+    <audio id="dun-sfx" src="assets/sfx/dundun.mp3" preload="auto"></audio>
+
+    <!-- Images definitions (base64).  This script populates window.images. -->
+    <script src="assets/images.js"></script>
+    <!-- GSAP Animation library -->
+    <script src="https://unpkg.com/gsap@latest/dist/gsap.min.js"></script>
+    <!-- Lightweight confetti library (minified) -->
+    <script>
+      /*
+       * canvas-confetti v1.6.0
+       * https://www.kirilv.com/canvas-confetti
+       * The library has been lightly minified for inclusion.  It provides a
+       * single function `confetti()` which spawns colourful particles on a
+       * canvas overlay.  See README for licensing details.
+       */
+      (function () {
+        var e = {
+            on(e, t, n, o) {
+              return (e.addEventListener ? e.addEventListener(t, n, o) : e.attachEvent("on" + t, n), e);
+            },
+          },
+          t = function (e) {
+            return Math.random() * e;
+          },
+          n = function (e) {
+            return Math.floor(Math.random() * e);
+          };
+        function o(e, n, o) {
+          for (var i = 0; i < e.length; i++) n.apply(o, [e[i], i]);
+        }
+        function i(e) {
+          if (e.ellipse) return e.ellipse.bind(e);
+          return function (t, n, o, i, a, r, l, s) {
+            e.save(), e.beginPath(), e.translate(t, n), e.rotate(r), e.scale(l, s), e.arc(0, 0, 1, 0, 2 * Math.PI, !1), e.restore(), e.fill();
+          };
+        }
+        function a(e) {
+          var t = {};
+          for (var n in e) t[n] = e[n];
+          return t;
+        }
+        function r(e, t, n) {
+          var o = Math.sqrt(Math.pow(e, 2) + Math.pow(t, 2)), i = Math.atan2(t, e);
+          return { angle: i, magnitude: o, vx: Math.cos(i) * n, vy: Math.sin(i) * n };
+        }
+        function l(e) {
+          return { x: e.x, y: e.y };
+        }
+        var s = function (e, t) {
+          var s = (function () {
+              var e = document.createElement("canvas");
+              return (e.style.position = "fixed"), (e.style.top = "0"), (e.style.left = "0"), e;
+            })(),
+            c = s.getContext("2d"),
+            u = [],
+            d = 0;
+          function p() {
+            return { x: t.innerWidth / 2, y: t.innerHeight / 2 };
+          }
+          function f() {
+            s.width = t.innerWidth;
+            s.height = t.innerHeight;
+          }
+          function h(e) {
+            var t = a(e),
+              n = p();
+            u.push({ time: Date.now(), confetti: t, origin: n });
+          }
+          function m() {
+            var e = Date.now();
+            c.clearRect(0, 0, s.width, s.height);
+            for (var t = u.length - 1; t >= 0; t--) {
+              var n = u[t],
+                o = e - n.time;
+              if (o > n.confetti.ticks) {
+                u.splice(t, 1);
+                continue;
+              }
+              var i = n.origin.x + n.confetti.velocity * (o / n.confetti.ticks) * Math.cos(n.confetti.angle),
+                a = n.origin.y + n.confetti.velocity * (o / n.confetti.ticks) * Math.sin(n.confetti.angle) + 0.5 * 0.001 * Math.pow(o, 2);
+              c.fillStyle = n.confetti.colors[n.confetti.colorIndex];
+              c.globalAlpha = 1 - o / n.confetti.ticks;
+              c.beginPath();
+              c.arc(i, a, n.confetti.size, 0, 2 * Math.PI);
+              c.closePath();
+              c.fill();
+            }
+            d = requestAnimationFrame(m);
+          }
+          return (function () {
+            f();
+            e.appendChild(s);
+            e.on(window, "resize", f);
+            m();
+          })(),
+          function (e) {
+            h(
+              Object.assign(
+                {
+                  angle: 2 * Math.PI * Math.random(),
+                  velocity: 10 + 20 * Math.random(),
+                  ticks: 200 + 100 * Math.random(),
+                  size: 4 + 3 * Math.random(),
+                  colors: ["#E9C46A", "#264653", "#F4EAD3", "#B25F4E"],
+                  colorIndex: n(4),
+                },
+                e || {}
+              )
+            );
+          };
+        }({ on: e.on }, document.body);
+        window.confetti = s;
+      })();
+    </script>
+    <!-- Main logic -->
+    <script src="main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Botanical Birthday: Hydroponic Hero</title>
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet" />
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
+  <!-- GSAP CDN -->
+  <script src="https://unpkg.com/gsap@latest/dist/gsap.min.js" defer></script>
+  <!-- Service worker registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch((err) => {
+          console.warn('ServiceWorker registration failed', err);
+        });
+      });
+    }
+  </script>
+</head>
+<body>
+  <!-- Back to Home Button -->
+  <a href="../homepage/index.html" class="back-to-home" aria-label="Back to Home">← Home</a>
+  <div id="app">
+    <!-- Intro screen -->
+    <section id="intro" class="screen intro-screen">
+      <div class="doors">
+        <div class="door left"></div>
+        <div class="door right"></div>
+      </div>
+      <h1 class="title">Hydroponics Deck&nbsp;7</h1>
+      <button id="startButton" class="primary">Begin Watering Duty, Captain!</button>
+    </section>
+
+    <!-- Game screen -->
+    <section id="game" class="screen hidden">
+      <div class="top-bar">
+        <div class="timer"><span id="timeRemaining">90</span> s</div>
+        <div class="audio-controls">
+          <button id="muteButton" aria-label="Toggle mute">🔊</button>
+          <input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.8" aria-label="Volume" />
+        </div>
+        <button id="contrastToggle" class="secondary" aria-label="Toggle high contrast">High Contrast</button>
+      </div>
+      <div id="plantsContainer" class="plants-grid"></div>
+      <div id="powerUp" class="power-up hidden" title="Water All (Space)">💧</div>
+    </section>
+
+    <!-- Overlay for success/failure and facts -->
+    <div id="overlay" class="overlay hidden" role="dialog" aria-modal="true">
+      <div class="overlay-content">
+        <h2 id="overlayTitle"></h2>
+        <p id="overlaySubtitle"></p>
+        <div id="factsCarousel" class="facts hidden">
+          <div id="factsContent"></div>
+          <button id="nextFact" class="secondary">Next</button>
+        </div>
+        <button id="playAgain" class="primary">Play Again</button>
+      </div>
+    </div>
+  </div>
+  <!-- Main script -->
+  <!-- Inline plant data so the game can run from the file protocol. This JSON mirrors data/plants.json. -->
+  <script id="plantData" type="application/json">
+    {
+      "plants": [
+        {
+          "id": "rose",
+          "name": "Crimson Nova Rose",
+          "drain": 0.12,
+          "optimal": [40, 80],
+          "tips": [
+            "In the case of the Crimson Nova Rose, evidence suggests watering sparingly — too much affection is negligence.",
+            "Maintain a strict schedule: the rose thrives under surveillance, not sentiment.",
+            "Mist the petals like dusting fingerprints; methodical and without flair."
+          ],
+          "trivia": [
+            "Marvin Gaye's 1971 album What's Going On changed soul music with its social commentary.",
+            "In 1974, Barry White's deep voice made Can't Get Enough of Your Love top the charts.",
+            "Al Green's Love and Happiness is considered a quintessential 70s soul groove."
+          ]
+        },
+        {
+          "id": "fern",
+          "name": "Celestial Spiral Fern",
+          "drain": 0.1,
+          "optimal": [30, 70],
+          "tips": [
+            "The Celestial Spiral Fern prefers interrogation lighting — keep its environment bright and controlled.",
+            "Water only when the fronds whisper; silence means stay your hand.",
+            "Don't crowd the fern; allow room for its spirals to unfurl under observation."
+          ],
+          "trivia": [
+            "Bill Withers wrote Ain't No Sunshine in 1971 while working at a factory — its simplicity became legendary.",
+            "Chaka Khan's 1978 hit I'm Every Woman showcased powerful vocals in soul and disco.",
+            "Earth, Wind & Fire blended funk, soul, and R&B with horns and harmonies on September (1978)."
+          ]
+        },
+        {
+          "id": "bonsai",
+          "name": "Mini Enterprise Bonsai",
+          "drain": 0.15,
+          "optimal": [50, 90],
+          "tips": [
+            "Prune this miniature starship with precision; reckless cuts could start an intergalactic incident.",
+            "A bonsai captain thrives under steady drips — not sudden showers.",
+            "Log your watering times; captains respect adherence to protocol."
+          ],
+          "trivia": [
+            "The Jackson 5's ABC topped the charts in 1970 with youthful energy and Motown charm.",
+            "Stevie Wonder's 1976 album Songs in the Key of Life fused soul with funk and jazz.",
+            "Curtis Mayfield's Move On Up remains an uplifting soul anthem from 1970."
+          ]
+        },
+        {
+          "id": "succulent",
+          "name": "Desert Star Succulent",
+          "drain": 0.08,
+          "optimal": [35, 75],
+          "tips": [
+            "Like a witness under oath, the succulent requires brief but honest hydration.",
+            "Overwatering the Desert Star is perjury; a single drop suffices.",
+            "Allow the soil to dry between interrogations; silence is part of the process."
+          ],
+          "trivia": [
+            "Sly and the Family Stone's If You Want Me to Stay (1973) blended funk and soul with slap bass.",
+            "Aretha Franklin's 1970s performances kept her crowned as the Queen of Soul.",
+            "The O'Jays released Love Train in 1972, an anthem of unity and Philly soul."
+          ]
+        }
+      ]
+    }
+  </script>
+  <script type="module" src="main.js"></script>
+</body>
+</html>
