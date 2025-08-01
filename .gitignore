@@ -28,6 +28,7 @@ Thumbs.db
 # Build artifacts
 dist/
 build/
+birthday-bundle-build/
 
 # Logs
 logs/

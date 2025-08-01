@@ -67,15 +67,25 @@ class GridSystemClass {
         div.dataset.row = r;
         div.dataset.col = c;
         
-        // Add click handler
-        div.addEventListener('click', (ev) => {
+        // Add click and touch handlers
+        const handleTileInteraction = (ev) => {
+          ev.preventDefault(); // Prevent default touch behavior
           EventBus.emit(EVENTS.INPUT_TILE_CLICK, {
             row: r,
             col: c,
             element: div,
             originalEvent: ev
           });
-        });
+        };
+        
+        div.addEventListener('click', handleTileInteraction);
+        div.addEventListener('touchstart', handleTileInteraction);
+        
+        // Prevent text selection and zoom on double tap
+        div.style.webkitUserSelect = 'none';
+        div.style.userSelect = 'none';
+        div.style.webkitTouchCallout = 'none';
+        div.style.touchAction = 'manipulation';
         
         this.gridContainer.appendChild(div);
       }

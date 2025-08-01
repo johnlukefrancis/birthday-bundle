@@ -1,4 +1,4 @@
-const CACHE_NAME = 'galaxy-garden-crush-v3';
+const CACHE_NAME = 'galaxy-garden-crush-v4';
 const URLS = [
   '/',
   '/index.html',
@@ -25,12 +25,12 @@ const URLS = [
   '/assets/sprites/sprite_rose.png',
   '/assets/sprites/sprite_succulent.png',
   '/assets/sprites/sprite_tag.png',
-  // Custom music
-  '/assets/music/song1.wav',
-  '/assets/music/song2.wav',
-  '/assets/music/song3.wav',
-  '/assets/music/song4.wav',
-  '/assets/music/song5.wav',
+  // Custom music (now MP3s instead of WAVs)
+  '/assets/music/song1.mp3',
+  '/assets/music/song2.mp3',
+  '/assets/music/song3.mp3',
+  '/assets/music/song4.mp3',
+  '/assets/music/song5.mp3',
   // Sound effects
   '/assets/audio/sfx/swap.mp3',
   '/assets/audio/sfx/match.mp3',

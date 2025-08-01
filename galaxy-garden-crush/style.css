@@ -58,10 +58,34 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
+  
+  /* Prevent touch behaviors that interfere with gameplay */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
   align-items: center;
   justify-content: flex-start;
   /* Allow scrolling if content exceeds viewport, so the grid remains visible. */
   overflow-y: auto;
+}
+
+/* Fallback fonts for when Google Fonts fail to load */
+body.fallback-fonts {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+body.fallback-fonts .top-bar h1 {
+  font-family: Impact, 'Arial Black', Arial, sans-serif !important;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+body.fallback-fonts #modal h2 {
+  font-family: Impact, 'Arial Black', Arial, sans-serif !important;
+  font-weight: bold;
 }
 
 /* Loader overlay */
@@ -194,11 +218,8 @@ body {
 /* Grid container */
 #grid-container {
   position: relative;
-  width: 90vmin;
-  height: 90vmin;
-  /* Ensure the grid fits within the viewport. Limit height based on available space to avoid being clipped by the viewport. */
-  max-width: 640px;
-  max-height: calc(100vh - 200px);
+  width: 640px;
+  height: 640px;
   /* Hydroponics bay panel texture behind tiles */
   background-image: url('assets/bg/bg_panel.jpg');
   background-size: cover;
@@ -279,5 +300,185 @@ body {
   #grid-container {
     width: 640px;
     height: 640px;
+  }
+  
+  .top-bar {
+    padding: 0.5rem 1rem;
+  }
+  
+  .top-bar h1 {
+    font-size: 1.5rem;
+  }
+  
+  .status-bar {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+/* Mobile-specific styles - only for actual small screens */
+@media (max-width: 699px), (max-height: 699px) and (max-width: 1024px) {
+  body {
+    font-size: 14px;
+    padding: 0;
+  }
+  
+  .top-bar {
+    padding: 8px 12px;
+    min-height: auto;
+  }
+  
+  .top-bar h1 {
+    font-size: 1.3rem;
+    margin: 0;
+  }
+  
+  #controls {
+    flex-direction: row;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  
+  .volume-control {
+    display: none; /* Hide volume slider on mobile to save space */
+  }
+  
+  .status-bar {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    min-height: auto;
+  }
+  
+  /* Mobile grid - smaller and centered */
+  #grid-container {
+    width: min(85vw, 60vh, 400px);
+    height: min(85vw, 60vh, 400px);
+    margin: 8px auto;
+  }
+  
+  .tile {
+    /* Ensure tiles are touch-friendly */
+    min-height: 40px;
+    min-width: 40px;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    /* Add better visual feedback for touch */
+    transition: transform 0.1s ease;
+  }
+  
+  .tile:active {
+    transform: scale(0.95);
+  }
+  
+  .back-to-home {
+    font-size: 12px;
+    padding: 6px 10px;
+    bottom: 10px;
+    left: 10px;
+  }
+  
+  /* Modal adjustments for mobile */
+  .modal-content {
+    width: 90vw;
+    max-width: 350px;
+    margin: 20px;
+    padding: 20px;
+  }
+  
+  .modal-content h2 {
+    font-size: 1.4rem;
+  }
+  
+  .modal-content button {
+    padding: 12px 24px;
+    font-size: 1rem;
+  }
+}
+
+/* Enhanced mobile detection styles - only for confirmed mobile devices */
+body.mobile-detected {
+  /* Force mobile-optimized layout only for actual mobile devices */
+  font-size: 14px !important;
+}
+
+/* Only apply these if screen is actually small AND mobile is detected */
+@media (max-width: 1024px) {
+  body.mobile-detected .top-bar {
+    padding: 12px 16px !important;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  body.mobile-detected .top-bar h1 {
+    font-size: 1.4rem !important;
+    text-align: center;
+    width: 100%;
+  }
+
+  body.mobile-detected #controls {
+    order: 2;
+    justify-content: center;
+  }
+
+  body.mobile-detected .status-bar {
+    font-size: 1rem !important;
+    padding: 12px 16px !important;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  /* Mobile-detected grid - optimized for actual mobile screens */
+  body.mobile-detected #grid-container {
+    width: min(90vw, 70vh, 350px) !important;
+    height: min(90vw, 70vh, 350px) !important;
+    margin: 16px auto !important;
+    max-width: 350px !important;
+    max-height: 350px !important;
+  }
+
+  body.mobile-detected .tile {
+    min-height: 42px !important;
+    min-width: 42px !important;
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+  }
+
+  body.mobile-detected .tile:active {
+    transform: scale(0.9) !important;
+    border-color: var(--color-gold) !important;
+  }
+
+  body.mobile-detected .back-to-home {
+    font-size: 14px !important;
+    padding: 8px 12px !important;
+    bottom: 20px !important;
+    left: 20px !important;
+  }
+}
+
+/* Landscape mobile optimization */
+@media (max-height: 600px) and (orientation: landscape) {
+  .top-bar {
+    padding: 8px;
+  }
+  
+  .top-bar h1 {
+    font-size: 1.2rem;
+  }
+  
+  .status-bar {
+    padding: 4px 8px;
+    font-size: 0.8rem;
+  }
+  
+  #grid-container {
+    width: min(70vh, 80vw);
+    height: min(70vh, 80vw);
   }
 }
