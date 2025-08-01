@@ -76,7 +76,7 @@ class AudioSystemClass {
     document.addEventListener('touchstart', enableAudio);
   }
   
-  // Load all audio assets
+  // Load all audio assets with mobile-friendly timeout
   async loadAudioAssets() {
     console.log('Loading audio assets...');
     
@@ -86,15 +86,36 @@ class AudioSystemClass {
         audio.src = item.src;
         audio.loop = item.type === 'music'; // Loop music, not sound effects
         
+        let loaded = false;
+        
+        // Mobile-friendly timeout (10 seconds per file)
+        const timeout = setTimeout(() => {
+          if (!loaded) {
+            console.warn('Audio loading timeout:', item.src);
+            loaded = true;
+            this.updateLoadProgress();
+            resolve();
+          }
+        }, 10000);
+        
         audio.addEventListener('canplaythrough', () => {
-          this.updateLoadProgress();
-          resolve();
+          if (!loaded) {
+            console.log('Audio loaded successfully:', item.src);
+            loaded = true;
+            clearTimeout(timeout);
+            this.updateLoadProgress();
+            resolve();
+          }
         });
         
         audio.addEventListener('error', () => {
-          console.warn('Failed to load audio:', item.src);
-          this.updateLoadProgress();
-          resolve();
+          if (!loaded) {
+            console.warn('Failed to load audio:', item.src);
+            loaded = true;
+            clearTimeout(timeout);
+            this.updateLoadProgress();
+            resolve();
+          }
         });
         
         // Store in appropriate collection based on type
@@ -102,6 +123,13 @@ class AudioSystemClass {
           this.loops[item.key] = audio;
         } else {
           this.sfx[item.key] = audio;
+        }
+        
+        // For mobile: try to preload but don't block loading if it fails
+        try {
+          audio.preload = 'metadata'; // Lighter preload for mobile
+        } catch (e) {
+          console.warn('Preload not supported:', e);
         }
       });
     });
