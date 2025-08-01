@@ -92,9 +92,6 @@ class InputSystemClass {
     // Clear selection immediately
     this.deselectTile();
     
-    // Set grid busy to prevent further input
-    GameState.set('gridBusy', true);
-    
     // Emit swap event for grid system to handle
     EventBus.emit(EVENTS.PIECES_SWAPPED, {
       fromRow,

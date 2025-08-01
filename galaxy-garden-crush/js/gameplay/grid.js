@@ -87,6 +87,12 @@ class GridSystemClass {
   initializeLevel(data) {
     const { level } = data;
     
+    // Guard against undefined level
+    if (!level) {
+      console.error('Grid system: level data is undefined');
+      return;
+    }
+    
     // Create new board
     const board = this.createBoard();
     
@@ -266,6 +272,9 @@ class GridSystemClass {
     let matches = initialMatches;
     let comboCount = 0;
     
+    // Set grid busy during cascade processing
+    GameState.set('gridBusy', true);
+    
     while (matches.length > 0) {
       comboCount++;
       
@@ -275,7 +284,8 @@ class GridSystemClass {
       // Emit events for other systems
       EventBus.emit(EVENTS.SCORE_CHANGED, {
         points: result.points,
-        combo: comboCount
+        combo: comboCount,
+        positions: result.cleared
       });
       
       if (result.specials.length > 0) {
@@ -298,7 +308,8 @@ class GridSystemClass {
       matches = this.findMatches(board);
     }
     
-    // All cascades complete
+    // All cascades complete - clear busy state
+    GameState.set('gridBusy', false);
     EventBus.emit(EVENTS.BOARD_SETTLED);
   }
   

@@ -35,38 +35,38 @@ class GameStateClass {
       loadProgress: 0
     };
     
-    // Level definitions (preserved from original)
+    // Level definitions (with your music!)
     this.levels = [
       {
         name: '1',
         goal: { type: 'score', target: 3000 },
         moves: 30,
-        loop: 'A'
+        loop: 'song1'
       },
       {
         name: '2',
         goal: { type: 'score', target: 5000 },
         moves: 25,
-        loop: 'B'
+        loop: 'song2'
       },
       {
         name: '3',
         goal: { type: 'special', target: 5 },
         moves: 30,
-        loop: 'C'
+        loop: 'song3'
       },
       {
         name: '4',
         goal: { type: 'collect', target: 20 },
         moves: 25,
-        loop: 'A'
+        loop: 'song4'
       },
       {
         name: '5',
         goal: { type: 'iced', target: 10 },
         moves: 20,
         iced: 8,
-        loop: 'B'
+        loop: 'song5'
       }
     ];
     

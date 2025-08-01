@@ -83,13 +83,13 @@ class GameEngineClass {
     EventBus.on(EVENTS.GAME_RESUME, () => this.resumeGame());
     EventBus.on(EVENTS.GAME_OVER, () => this.endGame());
     
-    // Level management
-    EventBus.on(EVENTS.LEVEL_START, (data) => this.startLevel(data.levelIndex));
-    EventBus.on(EVENTS.LEVEL_COMPLETE, (data) => this.handleLevelComplete(data.success));
+    // Level management - removed LEVEL_START to prevent recursion
+    EventBus.on(EVENTS.LEVEL_COMPLETE, (data) => this.handleLevelComplete(data));
     
     // Grid events
     EventBus.on(EVENTS.PIECES_SWAPPED, (data) => this.handlePiecesSwapped(data));
     EventBus.on(EVENTS.MATCH_DETECTED, (data) => this.handleMatchDetected(data));
+    EventBus.on(EVENTS.SCORE_CHANGED, (data) => this.handleScoreChanged(data));
     EventBus.on(EVENTS.BOARD_SETTLED, () => this.handleBoardSettled());
     
     // State change events
@@ -199,7 +199,7 @@ class GameEngineClass {
       state: GameState.getState()
     });
     
-    // Start audio for level
+    // Start audio for level with your music!
     EventBus.emit(EVENTS.AUDIO_PLAY_MUSIC, { 
       track: level.loop 
     });
@@ -214,31 +214,52 @@ class GameEngineClass {
   
   // Handle pieces being swapped
   handlePiecesSwapped(data) {
-    // Coordinate between systems after a swap
-    if (data.validMove) {
-      // Use move for move-based levels
-      const level = GameState.getCurrentLevel();
-      if (level && level.goal.type !== 'timed') {
-        const movesLeft = GameState.get('movesLeft') - 1;
-        GameState.set('movesLeft', Math.max(0, movesLeft));
-      }
-    }
+    // This event is emitted when input system requests a swap
+    // The grid system will handle validation and emit MATCH_DETECTED for valid moves
   }
   
   // Handle matches being detected
   handleMatchDetected(data) {
-    // Coordinate scoring and effects
-    EventBus.emit(EVENTS.SCORE_CHANGED, {
-      points: data.points,
-      combo: data.combo
-    });
+    // Use move for valid swaps in move-based levels
+    if (data.validMove) {
+      const level = GameState.getCurrentLevel();
+      if (level && level.goal.type !== 'timed') {
+        const currentMoves = GameState.get('movesLeft');
+        const movesLeft = currentMoves - 1;
+        GameState.set('movesLeft', Math.max(0, movesLeft));
+        console.log('Move used:', { currentMoves, newMovesLeft: Math.max(0, movesLeft) });
+      }
+    }
     
-    // Trigger visual effects
-    EventBus.emit(EVENTS.EFFECT_SPAWN, {
-      type: 'match',
-      positions: data.positions,
-      combo: data.combo
-    });
+    // Trigger visual effects (if positions are available)
+    if (data.positions) {
+      EventBus.emit(EVENTS.EFFECT_SPAWN, {
+        type: 'match',
+        positions: data.positions
+      });
+    }
+  }
+  
+  // Handle score changes from grid system
+  handleScoreChanged(data) {
+    // Update game state with new score
+    const currentScore = GameState.get('score') || 0;
+    const newScore = currentScore + (data.points || 0);
+    GameState.set('score', newScore);
+    
+    console.log('Score changed:', { currentScore, points: data.points, newScore });
+    
+    // Trigger visual effects if combo data available
+    if (data.combo && data.positions) {
+      EventBus.emit(EVENTS.EFFECT_SPAWN, {
+        type: 'match',
+        positions: data.positions,
+        combo: data.combo
+      });
+    }
+    
+    // Check goal completion after score update
+    this.checkGoalCompletion();
   }
   
   // Handle board settling after cascades
@@ -257,6 +278,13 @@ class GameEngineClass {
     const collectCount = GameState.get('collectCount');
     const icedRemaining = GameState.get('icedRemaining');
     const specialCounts = GameState.get('specialCounts');
+    
+    console.log('checkGoalCompletion:', { 
+      score, 
+      target: level.goal.target, 
+      goalType: level.goal.type,
+      goalMet: score >= level.goal.target 
+    });
     
     let goalMet = false;
     
@@ -279,6 +307,7 @@ class GameEngineClass {
     }
     
     if (goalMet) {
+      console.log('GOAL MET! Triggering level completion');
       EventBus.emit(EVENTS.LEVEL_COMPLETE, { 
         success: true,
         levelIndex: GameState.get('levelIndex'),
@@ -293,6 +322,8 @@ class GameEngineClass {
     const movesLeft = GameState.get('movesLeft');
     const timerRemaining = GameState.get('timerRemaining');
     
+    console.log('checkLoseConditions:', { movesLeft, timerRemaining, levelType: level.goal.type });
+    
     let lost = false;
     
     if (level.goal.type === 'timed') {
@@ -302,6 +333,7 @@ class GameEngineClass {
     }
     
     if (lost) {
+      console.log('Game lost!', { movesLeft, timerRemaining, levelType: level.goal.type });
       EventBus.emit(EVENTS.LEVEL_COMPLETE, { 
         success: false,
         levelIndex: GameState.get('levelIndex'),
@@ -312,13 +344,23 @@ class GameEngineClass {
   
   // Handle level completion
   handleLevelComplete(data) {
+    console.log('handleLevelComplete called with:', data);
+    
+    // Prevent multiple completion triggers
+    if (GameState.get('gamePhase') === 'complete' || GameState.get('gamePhase') === 'gameover') {
+      console.log('Level already completed, ignoring duplicate trigger');
+      return;
+    }
+    
     GameState.set('gamePhase', data.success ? 'complete' : 'gameover');
     
     // Stop timers and music
     EventBus.emit('timer:stop');
     EventBus.emit(EVENTS.AUDIO_STOP_MUSIC);
+    console.log('Stopping music and timers...');
     
-    // Play completion sound
+    // Play completion sound once
+    console.log('Playing completion sound:', data.success ? 'pass' : 'fail');
     EventBus.emit(EVENTS.AUDIO_PLAY_SFX, { 
       sound: data.success ? 'pass' : 'fail' 
     });

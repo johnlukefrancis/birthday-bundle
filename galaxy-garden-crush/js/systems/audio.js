@@ -5,18 +5,25 @@ class AudioSystemClass {
     this.sfx = {};
     this.currentLoop = null;
     this.initialized = false;
+    this.userInteracted = false; // Track if user has interacted
+    this.pendingMusicTrack = null; // Store music to play when user interacts
     
     // Audio assets to load
     this.audioAssets = [
-      { key: 'A', src: 'assets/audio/loops/loopA.mp3' },
-      { key: 'B', src: 'assets/audio/loops/loopB.mp3' },
-      { key: 'C', src: 'assets/audio/loops/loopC.mp3' },
-      { key: 'swap', src: 'assets/audio/sfx/swap.mp3' },
-      { key: 'match', src: 'assets/audio/sfx/match.mp3' },
-      { key: 'special', src: 'assets/audio/sfx/special.mp3' },
-      { key: 'pass', src: 'assets/audio/sfx/pass.mp3' },
-      { key: 'fail', src: 'assets/audio/sfx/fail.mp3' },
-      { key: 'dundun', src: 'assets/audio/sfx/dundun.mp3' }
+      // Background music tracks (your 5 songs)
+      { key: 'song1', src: 'assets/music/song1.wav', type: 'music' },
+      { key: 'song2', src: 'assets/music/song2.wav', type: 'music' },
+      { key: 'song3', src: 'assets/music/song3.wav', type: 'music' },
+      { key: 'song4', src: 'assets/music/song4.wav', type: 'music' },
+      { key: 'song5', src: 'assets/music/song5.wav', type: 'music' },
+      
+      // Sound effects
+      { key: 'swap', src: 'assets/audio/sfx/swap.mp3', type: 'sfx' },
+      { key: 'match', src: 'assets/audio/sfx/match.mp3', type: 'sfx' },
+      { key: 'special', src: 'assets/audio/sfx/special.mp3', type: 'sfx' },
+      { key: 'pass', src: 'assets/audio/sfx/pass.mp3', type: 'sfx' },
+      { key: 'fail', src: 'assets/audio/sfx/fail.mp3', type: 'sfx' },
+      { key: 'dundun', src: 'assets/audio/sfx/dundun.mp3', type: 'sfx' }
     ];
     
     this.setupEventListeners();
@@ -30,6 +37,43 @@ class AudioSystemClass {
     EventBus.on(EVENTS.AUDIO_PLAY_SFX, (data) => this.playSfx(data.sound));
     EventBus.on(EVENTS.AUDIO_VOLUME_CHANGED, (data) => this.setVolume(data.volume));
     EventBus.on(EVENTS.AUDIO_MUTE_TOGGLED, (data) => this.setMuted(data.muted));
+    
+    // Enable audio on first user interaction
+    this.enableAudioOnInteraction();
+  }
+  
+  // Enable audio playback after user interaction
+  enableAudioOnInteraction() {
+    this.audioPrompt = document.getElementById('audio-prompt');
+    
+    const enableAudio = () => {
+      if (!this.userInteracted) {
+        console.log('User interaction detected - enabling audio');
+        this.userInteracted = true;
+        
+        // Hide the audio prompt
+        if (this.audioPrompt) {
+          this.audioPrompt.classList.add('hidden');
+        }
+        
+        // Play pending music if any
+        if (this.pendingMusicTrack) {
+          console.log('Playing pending music:', this.pendingMusicTrack);
+          this.playMusic(this.pendingMusicTrack);
+          this.pendingMusicTrack = null;
+        }
+        
+        // Remove event listeners after first interaction
+        document.removeEventListener('click', enableAudio);
+        document.removeEventListener('keydown', enableAudio);
+        document.removeEventListener('touchstart', enableAudio);
+      }
+    };
+    
+    // Listen for any user interaction
+    document.addEventListener('click', enableAudio);
+    document.addEventListener('keydown', enableAudio);
+    document.addEventListener('touchstart', enableAudio);
   }
   
   // Load all audio assets
@@ -40,7 +84,7 @@ class AudioSystemClass {
       return new Promise((resolve) => {
         const audio = new Audio();
         audio.src = item.src;
-        audio.loop = item.key === 'A' || item.key === 'B' || item.key === 'C';
+        audio.loop = item.type === 'music'; // Loop music, not sound effects
         
         audio.addEventListener('canplaythrough', () => {
           this.updateLoadProgress();
@@ -53,8 +97,8 @@ class AudioSystemClass {
           resolve();
         });
         
-        // Store in appropriate collection
-        if (item.key.length === 1) {
+        // Store in appropriate collection based on type
+        if (item.type === 'music') {
           this.loops[item.key] = audio;
         } else {
           this.sfx[item.key] = audio;
@@ -65,7 +109,10 @@ class AudioSystemClass {
     await Promise.all(promises);
     this.applyVolumeSettings();
     this.initialized = true;
-    console.log('Audio assets loaded');
+    console.log('Audio assets loaded:', { 
+      music: Object.keys(this.loops), 
+      sfx: Object.keys(this.sfx) 
+    });
   }
   
   // Update loading progress
@@ -99,11 +146,29 @@ class AudioSystemClass {
       return;
     }
     
+    // If user hasn't interacted yet, store the track to play later
+    if (!this.userInteracted) {
+      console.log('User has not interacted yet, storing music track:', track);
+      this.pendingMusicTrack = track;
+      
+      // Show the audio prompt
+      if (this.audioPrompt) {
+        this.audioPrompt.classList.remove('hidden');
+      }
+      
+      return;
+    }
+    
+    // Prevent rapid replay of same track
+    const audio = this.loops[track];
+    if (this.currentLoop === audio && !this.currentLoop.paused) {
+      return;
+    }
+    
     // Stop current music
     this.stopMusic();
     
     // Start new track
-    const audio = this.loops[track];
     if (audio) {
       this.currentLoop = audio;
       const volume = GameState.get('volume');
@@ -112,11 +177,17 @@ class AudioSystemClass {
       audio.volume = muted ? 0 : volume;
       audio.currentTime = 0;
       
-      audio.play().catch(error => {
-        console.warn('Failed to play music:', error);
-      });
-      
       console.log('Playing music track:', track);
+      
+      audio.play().then(() => {
+        console.log('Music started successfully:', track);
+      }).catch(error => {
+        console.warn('Failed to play music:', error.message);
+        // Store for later if autoplay failed
+        if (!this.userInteracted) {
+          this.pendingMusicTrack = track;
+        }
+      });
     } else {
       console.warn('Music track not found:', track);
     }
@@ -124,7 +195,9 @@ class AudioSystemClass {
   
   // Stop background music
   stopMusic() {
+    console.log('stopMusic() called, currentLoop:', this.currentLoop ? 'exists' : 'null');
     if (this.currentLoop) {
+      console.log('Stopping current music loop');
       this.currentLoop.pause();
       this.currentLoop.currentTime = 0;
       this.currentLoop = null;
@@ -137,7 +210,8 @@ class AudioSystemClass {
       console.warn('Audio system not initialized');
       return;
     }
-    
+
+    console.log('Playing sound effect:', soundName);
     const audio = this.sfx[soundName];
     if (audio) {
       const volume = GameState.get('volume');
@@ -145,6 +219,13 @@ class AudioSystemClass {
       
       audio.volume = muted ? 0 : volume;
       audio.currentTime = 0;
+      
+      console.log('Audio file details:', {
+        src: audio.src,
+        duration: audio.duration,
+        loop: audio.loop,
+        volume: audio.volume
+      });
       
       audio.play().catch(error => {
         console.warn('Failed to play sound effect:', error);

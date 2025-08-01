@@ -24,6 +24,11 @@
 
   <!-- Game container -->
   <div id="game" class="hidden">
+    <!-- Audio interaction prompt -->
+    <div id="audio-prompt" class="audio-prompt hidden">
+      <p>🎵 Click anywhere to enable background music</p>
+    </div>
+    
     <header class="top-bar">
       <h1>Galaxy&nbsp;Garden&nbsp;Crush</h1>
       <div id="controls">
@@ -54,13 +59,35 @@
     </div>
   </div>
 
-  <script src="sprites.js"></script>
-  <script src="engine.js"></script>
-  <script src="game.js"></script>
+  <script src="js/assets/sprites.js"></script>
+  
+  <!-- Core Systems -->
+  <script src="js/core/events.js"></script>
+  <script src="js/core/state.js"></script>
+  <script src="js/core/engine.js"></script>
+  
+  <!-- Game Systems -->
+  <script src="js/systems/audio.js"></script>
+  <script src="js/systems/scoring.js"></script>
+  <script src="js/systems/timer.js"></script>
+  
+  <!-- Gameplay Systems -->
+  <script src="js/gameplay/grid.js"></script>
+  
+  <!-- UI Systems -->
+  <script src="js/ui/screens.js"></script>
+  
+  <!-- Input Systems -->
+  <script src="js/interactions/input.js"></script>
+  
+  <!-- Game Initialization -->
+    <!-- Initialization -->
+  <script src="js/core/init.js"></script>
+  
   <script>
     // Register the service worker for offline support
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js').catch(function(e) {
+      navigator.serviceWorker.register('js/sw/service-worker.js').catch(function(e) {
         console.error('Service worker registration failed:', e);
       });
     }
