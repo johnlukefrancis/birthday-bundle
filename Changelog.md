@@ -1,5 +1,67 @@
 # Birthday-Bundle Changelog
 
+## Session 10
+
+🔴 **Galaxy Garden Crush Deployment Issues** - Investigating itch.io upload failures after mobile optimization:
+
+**Problem Description**:
+- **Google Cloud Storage Error**: Itch.io uploads now failing with "AccessDenied" error for Google Cloud Storage
+- **XML Error Response**: Getting "Anonymous caller does not have storage.objects.get access" message
+- **Timeline**: Error started occurring only during this session despite no breaking changes to external requests
+- **Scope**: Affects all uploaded bundles despite reverting problematic code changes
+
+**Debugging Attempts**:
+- **File Reversions**: Used `git checkout` to revert `galaxy-garden-crush/index.html` and `js/core/init.js` to original working state
+- **Service Worker**: Confirmed service worker registration is commented out and not causing issues
+- **Google Fonts**: Verified that Google Fonts requests are unchanged from previous working versions
+- **Package Contents**: Repackaged bundle (23.66MB) with clean file structure, no hidden/temp files
+- **Git History**: Confirmed only expected changes from MP3 conversion and mobile optimization
+
+**Technical Analysis**:
+- **External Requests**: Only Google Fonts (googleapis.com, gstatic.com) - same as always working
+- **Bundle Size**: 23.66MB (reasonable for itch.io platform)
+- **File Structure**: Clean package with only intended games (Captain's Card, Detective Case, Galaxy Garden Crush)
+- **Modified Files**: Limited to MP3 conversion, touch events, mobile CSS, service worker cache list
+
+**Current Status**:
+- **Core Improvements**: MP3 conversion (74MB→20MB) and touch events working correctly in local testing
+- **Deployment Blocker**: Unknown cause preventing itch.io uploads despite clean bundle
+- **Next Steps**: Need fresh debugging session to isolate root cause of deployment failure
+
+**Preservation Strategy**:
+- **Working Code**: All mobile optimizations and MP3 conversion preserved
+- **Clean State**: Reverted any experimental code that might trigger external requests
+- **Version Control**: Ready for systematic investigation in next session
+
+## Session 9
+
+🟩 **Galaxy Garden Crush Mobile Optimization & MP3 Conversion** - Major mobile improvements and audio optimization:
+
+**Mobile Touch & Scaling Fixes**:
+- **Touch Events**: Added proper touch event handling to all game tiles with `touchstart` support
+- **Mobile CSS**: Optimized grid sizing for mobile (70vw, 50vh, max 350px) to fix scaling issues
+- **Touch-Friendly Interface**: 35px minimum touch targets with visual feedback (scale animation)
+- **Viewport Meta**: Updated to prevent zoom and ensure proper mobile scaling
+- **Responsive Layout**: Improved mobile layout with smaller fonts, better spacing, and hidden volume controls
+
+**Audio System Overhaul**:
+- **MP3 Conversion**: Replaced 74MB WAV files with 20MB MP3 files for faster loading
+- **File Size Reduction**: Cut audio assets by ~74% (song1: 3.66MB, song2: 5.34MB, song3: 2.44MB, song4: 5.95MB, song5: 2.80MB)
+- **Loading Performance**: Fixed 0% loading stuck issue caused by large audio files
+- **Touch Audio**: Maintained audio interaction prompt with proper touch event support
+
+**Build & Deployment**:
+- **Packaging Script**: Created `package-for-itch.ps1` to generate single zip file for itch.io upload
+- **MP3 Copy Script**: Automated MP3 file copying and renaming from mp3s folder to game assets
+- **Itch.io Optimization**: Recommended viewport settings (375x667) for mobile-first experience
+- **Git Cleanup**: Added birthday-bundle-build/ to .gitignore to prevent tracking build artifacts
+
+**Technical Details**:
+- **Bundle Size**: Final package reduced to 23.66MB (down from ~74MB+ with WAV files)
+- **CSS Media Queries**: Enhanced mobile breakpoints and landscape optimization
+- **Loading Progress**: Added debugging for stuck loading scenarios
+- **Service Worker**: Updated to cache MP3 files instead of WAV files
+
 ## Session 8
 
 🟥 **Project Cleanup** - Removed experimental Hydroponic Hero game:
