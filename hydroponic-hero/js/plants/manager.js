@@ -53,7 +53,7 @@ export class PlantManager {
     });
   }
   
-  waterPlant(plantId, amount = 20) {
+  waterPlant(plantId, amount = 8) {
     if (gameState.hydros[plantId] === undefined) return false;
     
     const oldHydration = gameState.hydros[plantId];

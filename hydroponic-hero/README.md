@@ -31,9 +31,10 @@ hydroponic-hero/
 ├── main.js                    # Ultra-lightweight entry point
 ├── index.html                 # Game HTML structure
 ├── style.css                  # Game styling
-├── service-worker.js          # Offline capability
 ├── config/
 │   └── game.json              # Game configuration parameters
+├── sw/
+│   └── service-worker.js      # Offline capability
 ├── js/
 │   ├── core/                  # 🔧 Core engine systems
 │   │   ├── engine.js          # Game engine & system orchestration

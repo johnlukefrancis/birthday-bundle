@@ -27,7 +27,7 @@ export class InputHandler {
     document.addEventListener('click', (e) => {
       if (e.target.classList.contains('water-button')) {
         const plantId = e.target.dataset.id;
-        EventBus.emit(EVENTS.PLANT_WATERED, { plantId, amount: 20 });
+        EventBus.emit(EVENTS.PLANT_WATERED, { plantId, amount: 8 });
       }
     });
     
@@ -86,7 +86,7 @@ export class InputHandler {
   activatePowerUp() {
     // Water all plants
     gameState.plants.forEach(plant => {
-      EventBus.emit(EVENTS.PLANT_WATERED, { plantId: plant.id, amount: 30 });
+      EventBus.emit(EVENTS.PLANT_WATERED, { plantId: plant.id, amount: 12 });
     });
     
     // Hide power-up

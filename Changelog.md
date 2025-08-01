@@ -8,11 +8,17 @@
 - **Removed**: Redundant event listeners in PlantRenderer for cleaner event flow
 - **Result**: Responsive water button interaction restored in modular architecture
 
-🟦 **Documentation Updates**:
-- **README.md**: Added comprehensive modular architecture section with folder structure
-- **Enhancement Prompt**: Updated to reflect ultra-modular foundation for agent implementation
-- **New Prompt**: Galaxy Garden Crush modularization specification created
-- **Architecture Benefits**: Documented event-driven design and extensibility advantages
+🟦 **Documentation & File Organization**:
+- **README.md**: Complete rewrite from scratch, removed all duplicated/corrupted content
+- **File Cleanup**: Removed extra main files (main-modular.js, main-new.js, main-original.js, etc.)
+- **Service Worker**: Moved to `sw/` folder and updated for modular architecture
+- **Enhancement Prompts**: Updated for single-room MVP scope and modular foundation
+- **Galaxy Garden Crush**: Created modularization specification (code-only, no features)
+
+🟩 **Game Balance Fix** - Corrected watering amounts that became overpowered during refactoring:
+- **Water Button**: Reduced from 20 to 8 hydration points per click
+- **Power-up**: Reduced from 30 to 12 hydration points per plant
+- **Result**: Balanced gameplay restored - single clicks no longer max out plant hydration
 
 🟩 **Galaxy Garden Crush Modularization Prompt** - Complete specification for match-3 game restructuring:
 - **Target**: Transform monolithic structure to ultra-modular event-driven architecture

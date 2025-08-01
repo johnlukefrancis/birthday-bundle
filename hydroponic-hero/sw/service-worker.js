@@ -1,12 +1,40 @@
 /* Simple service worker for offline support */
-const CACHE_NAME = 'hydroponic-v1';
+const CACHE_NAME = 'hydroponic-v2-modular';
 const ASSETS = [
   '/',
   'index.html',
   'style.css',
   'main.js',
+  // Core modules
+  'js/core/engine.js',
+  'js/core/state.js',
+  'js/core/events.js',
+  // Systems
+  'js/systems/audio.js',
+  'js/systems/timer.js',
+  'js/systems/rooms.js',
+  // Plants
+  'js/plants/manager.js',
+  'js/plants/renderer.js',
+  // UI
+  'js/ui/screens.js',
+  'js/ui/overlay.js',
+  // Interactions
+  'js/interactions/input.js',
+  // Config
+  'config/game.json',
+  // Data
   'data/plants.json',
-  // images
+  // Audio files
+  'assets/audio/loop1.mp3',
+  'assets/audio/loop2.mp3',
+  'assets/audio/loop3.mp3',
+  'assets/audio/sfx/door.mp3',
+  'assets/audio/sfx/drop.mp3',
+  'assets/audio/sfx/alert.mp3',
+  'assets/audio/sfx/success.mp3',
+  'assets/audio/sfx/fail.mp3',
+  // Current image assets
   'assets/images/img1.jpg',
   'assets/images/img2.jpg',
   'assets/images/img3.jpg',
@@ -14,17 +42,7 @@ const ASSETS = [
   'assets/images/img5.jpg',
   'assets/images/img6.jpg',
   'assets/images/img7.jpg',
-  'assets/images/img8.jpg',
-  // audio loops
-  'assets/audio/loop1.mp3',
-  'assets/audio/loop2.mp3',
-  'assets/audio/loop3.mp3',
-  // sfx
-  'assets/audio/sfx/door.mp3',
-  'assets/audio/sfx/drop.mp3',
-  'assets/audio/sfx/alert.mp3',
-  'assets/audio/sfx/success.mp3',
-  'assets/audio/sfx/fail.mp3'
+  'assets/images/img8.jpg'
 ];
 
 self.addEventListener('install', (event) => {
