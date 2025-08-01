@@ -11,11 +11,11 @@ class AudioSystemClass {
     // Audio assets to load
     this.audioAssets = [
       // Background music tracks (your 5 songs)
-      { key: 'song1', src: 'assets/music/song1.mp3', type: 'music' },
-      { key: 'song2', src: 'assets/music/song2.mp3', type: 'music' },
-      { key: 'song3', src: 'assets/music/song3.mp3', type: 'music' },
-      { key: 'song4', src: 'assets/music/song4.mp3', type: 'music' },
-      { key: 'song5', src: 'assets/music/song5.mp3', type: 'music' },
+      { key: 'song1', src: 'assets/music/song1.wav', type: 'music' },
+      { key: 'song2', src: 'assets/music/song2.wav', type: 'music' },
+      { key: 'song3', src: 'assets/music/song3.wav', type: 'music' },
+      { key: 'song4', src: 'assets/music/song4.wav', type: 'music' },
+      { key: 'song5', src: 'assets/music/song5.wav', type: 'music' },
       
       // Sound effects
       { key: 'swap', src: 'assets/audio/sfx/swap.mp3', type: 'sfx' },
@@ -78,41 +78,24 @@ class AudioSystemClass {
   
   // Load all audio assets
   async loadAudioAssets() {
-    console.log('Loading audio assets...', this.audioAssets.length, 'files');
+    console.log('Loading audio assets...');
     
-    let loadedCount = 0;
-    
-    const promises = this.audioAssets.map((item, index) => {
+    const promises = this.audioAssets.map(item => {
       return new Promise((resolve) => {
         const audio = new Audio();
         audio.src = item.src;
         audio.loop = item.type === 'music'; // Loop music, not sound effects
-        audio.preload = 'auto'; // Ensure files are fully loaded
         
-        const onLoad = () => {
-          loadedCount++;
-          console.log(`Loaded audio ${loadedCount}/${this.audioAssets.length}: ${item.key}`);
-          this.updateLoadProgress(loadedCount, this.audioAssets.length);
+        audio.addEventListener('canplaythrough', () => {
+          this.updateLoadProgress();
           resolve();
-        };
+        });
         
-        const onError = (error) => {
-          console.warn('Failed to load audio:', item.src, error);
-          loadedCount++;
-          this.updateLoadProgress(loadedCount, this.audioAssets.length);
-          resolve(); // Still resolve to not block other assets
-        };
-        
-        audio.addEventListener('canplaythrough', onLoad);
-        audio.addEventListener('error', onError);
-        
-        // Timeout fallback for assets that take too long
-        setTimeout(() => {
-          if (loadedCount < index + 1) {
-            console.warn('Audio loading timeout for:', item.src);
-            onError('timeout');
-          }
-        }, 30000); // 30 second timeout
+        audio.addEventListener('error', () => {
+          console.warn('Failed to load audio:', item.src);
+          this.updateLoadProgress();
+          resolve();
+        });
         
         // Store in appropriate collection based on type
         if (item.type === 'music') {
@@ -120,9 +103,6 @@ class AudioSystemClass {
         } else {
           this.sfx[item.key] = audio;
         }
-        
-        // Start loading
-        audio.load();
       });
     });
     
@@ -136,13 +116,12 @@ class AudioSystemClass {
   }
   
   // Update loading progress
-  updateLoadProgress(loaded, total) {
-    const progress = (loaded / total) * 100;
+  updateLoadProgress() {
+    // Simplified progress tracking - audio is part of overall loading
+    // Real implementation would coordinate with other systems
     EventBus.emit('loading:progress', {
       system: 'audio',
-      progress: progress,
-      loaded: loaded,
-      total: total
+      progress: 100 / this.audioAssets.length
     });
   }
   

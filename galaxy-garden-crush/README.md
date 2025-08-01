@@ -1,23 +1,15 @@
-# Galaxy1. Clone 1. Clone or downloa## Getting started
-
-The game is completely self‑contained.  To run it locally or deploy it to itch.io / GitHub Pages:
-
-1. Clone or download this repository and locate the `galaxy-garden-crush/` folder.
-2. You can open `index.html` directly in a modern browser (service worker disabled by default for better loading performance).  Make sure to serve the folder over HTTP when deploying (e.g. via GitHub Pages, Netlify or itch.io's HTML5 upload).
-3. To publish on itch.io, zip the entire contents of the folder and upload it as a "HTML5 game".
-
-**Note**: The game now uses MP3 files instead of WAV for music (~20MB total vs previous 74MB) for faster loading, especially on mobile devices and platforms like itch.io.repository and locate the `### Asset Organization
+# Galaxy1. Clone 1. Clone or download this repository and locate the `### Asset Organization
 
 ```
 assets/
 ├── audio/
 │   └── sfx/        # Sound effects (match.mp3, swap.mp3, pass.mp3, fail.mp3, etc.)
-├── music/          # Level background music (MP3 format)
-│   ├── song1.mp3   # Level 1 music
-│   ├── song2.mp3   # Level 2 music
-│   ├── song3.mp3   # Level 3 music
-│   ├── song4.mp3   # Level 4 music
-│   └── song5.mp3   # Level 5 music
+├── music/          # Level background music
+│   ├── song1.wav   # Level 1 music
+│   ├── song2.wav   # Level 2 music
+│   ├── song3.wav   # Level 3 music
+│   ├── song4.wav   # Level 4 music
+│   └── song5.wav   # Level 5 music
 ├── sprites/        # Game sprites
 │   ├── sprite_bonsai.png
 │   ├── sprite_fern.png
@@ -35,7 +27,7 @@ assets/
 | --- | --- | --- |
 | **Sprites** | Custom PNGs (rose bud, bonsai‑prise, fern spiral, succulent star, evidence tag) generated with generative AI and post‑processed for transparency. | CC‑BY‑SA 4.0 |
 | **Backgrounds** | `bg_starfield.jpg` and `bg_panel.jpg` were generated via AI and compressed to JPEG. | CC‑BY‑SA 4.0 |
-| **Music** | `assets/music/song1-5.mp3` – Custom music tracks for each level (MP3 format for faster loading). | CC‑BY‑SA 4.0 |
+| **Music** | `assets/music/song1-5.wav` – Custom music tracks for each level. | CC‑BY‑SA 4.0 |
 | **Sound effects** | `assets/audio/sfx/` – Swap, match, special, level‑pass fanfare, fail sting and hidden "Dun‑Dun" are short MP3 clips. | CC‑BY‑SA 4.0 |arden-crush/` folder.
 2. You can open `index.html` directly in a modern browser (it registers a service worker, so subsequent loads work offline).  Make sure to serve the folder over HTTP when deploying (e.g. via GitHub Pages, Netlify or itch.io's HTML5 upload).
 3. To publish on itch.io, zip the entire contents of the folder and upload it as a "HTML5 game".rden Crush

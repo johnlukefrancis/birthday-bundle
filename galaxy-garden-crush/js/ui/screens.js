@@ -169,8 +169,6 @@ class UISystemClass {
   updateLoadProgress(data) {
     const progress = Math.min(100, Math.max(0, data.progress || 0));
     
-    console.log(`Loading progress: ${data.system} - ${progress}%`);
-    
     if (this.elements.loadProgress) {
       this.elements.loadProgress.textContent = `${Math.round(progress)}%`;
     }
@@ -181,20 +179,6 @@ class UISystemClass {
     
     // Update global progress
     GameState.set('loadProgress', progress);
-    
-    // If loading seems stuck at 0% for too long, provide feedback
-    if (progress === 0 && !this.loadingStuckWarning) {
-      setTimeout(() => {
-        const currentProgress = GameState.get('loadProgress') || 0;
-        if (currentProgress === 0) {
-          this.loadingStuckWarning = true;
-          console.warn('Loading appears stuck - this may be due to large audio files');
-          if (this.elements.loadProgress) {
-            this.elements.loadProgress.textContent = 'Loading large files...';
-          }
-        }
-      }, 5000); // 5 second delay
-    }
   }
   
   // Update HUD from current state

@@ -11,8 +11,8 @@
   --color-accent: #B25F4E;
   --color-highlight: #E9C46A;
   --max-width: 680px;
-  --font-body: 'IBM Plex Sans', sans-serif;
-  --font-heading: 'Archivo Black', sans-serif;
+  --font-body: Arial, Helvetica, sans-serif;
+  --font-heading: Impact, 'Arial Black', sans-serif;
 }
 
 /* Back to Home Button */
