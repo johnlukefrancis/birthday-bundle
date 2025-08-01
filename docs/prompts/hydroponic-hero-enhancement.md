@@ -1,8 +1,8 @@
-# 🚀 Hydroponic Hero 2.0: Room-Based Enhancement Request
-*ChatGPT Agent Implementation Spec - Comprehensive room-based enhancement with image generation*
+# 🚀 Hydroponic Hero 2.0: Single Room MVP Enhancement
+*ChatGPT Agent Implementation Spec - Focused single-room enhancement with advanced mechanics*
 
 ## 🎯 **Mission Objective**
-Transform the current basic Hydroponic Hero game into a **room-based hydroponics management experience** where players navigate between 4 distinct hydroponics rooms, each containing multiple plants that require direct watering interaction using cursor-based gameplay.
+Transform the current basic Hydroponic Hero game into an **immersive single-room hydroponics experience** where players enter one detailed hydroponics room containing 4 plants with enhanced watering mechanics and cursor-based interaction. This MVP focuses on creating a polished, engaging room that can serve as a template for future room expansion.
 
 ## 📋 **Context & Repository Access**
 - **GitHub Repository**: `johnlukefrancis/birthday-bundle`
@@ -34,11 +34,11 @@ js/
 ## 🏗️ **New Game Architecture Vision**
 
 ### Core Gameplay Loop 🔄
-1. **Main Deck View**: 4 room cards showing overall room health status
-2. **Click Room**: Enter individual hydroponics room with full-screen view
-3. **Plant Care**: Direct watering interaction with cursor-as-watering-can
-4. **Room Management**: Monitor and maintain 4 plants per room with different needs
-5. **Exit Room**: Return to main deck to check other rooms
+1. **Main Menu**: Game starts with "Enter Hydroponics Bay" button
+2. **Room Entry**: Click to enter immersive full-screen hydroponics room
+3. **Enhanced Plant Care**: Direct cursor-based watering with advanced mechanics
+4. **Room Management**: Maintain 4 plants with unique behaviors and interaction methods
+5. **Victory/Failure**: Complete 90-second mission or watch plants fail
 
 ### What Currently Works ✅
 - 90-second timer with countdown
@@ -51,95 +51,88 @@ js/
 - localStorage settings persistence
 
 ### What Needs Complete Transformation 🎯
-- **Architecture**: Single-screen cards → Multi-room navigation system
-- **Plant System**: 4 total plants → 16 plants (4 rooms × 4 plants each)
-- **Interaction**: Button clicking → Direct cursor watering
-- **Visuals**: Generic photos → AI-generated plant assets and room backdrops
-- **Spatial Design**: Grid layout → Immersive room environments
+- **Interface**: Plant cards → Immersive room environment
+- **Interaction**: Button clicking → Advanced cursor-based watering mechanics
+- **Visuals**: Generic photos → AI-generated room backdrop and plant assets
+- **Mechanics**: Simple watering → Enhanced plant care with multiple interaction types
+- **Spatial Design**: Grid layout → Natural room environment with positioned plants
 
 ## 🛠 **Technical Enhancement Specifications**
 
-### 1. Main Deck Interface (Room Selection)
-**Replace**: Current plant grid  
-**With**: Hydroponics room overview interface
+### 1. Immersive Room Interface
+**Replace**: Current plant grid layout
+**With**: Full-screen hydroponics room environment
 
 **Implementation Details**:
-- 4 room cards displaying room names and overall health status
-- Each room shows aggregate health indicator (green/yellow/red)
-- Room cards show mini-preview of room type (botanical, industrial, research, garden)
-- Click room card to enter full-screen room view
-- Room health depletes at different rates per room difficulty
+- **Generate room backdrop**: Single detailed hydroponics room background (Botanical Research Bay)
+- **Room atmosphere**: Bright, clinical laboratory with hydroponic equipment and Star Trek aesthetic
+- **Plant positioning**: 4 plants naturally positioned within the room environment (not grid-based)
+- **Environmental details**: Subtle atmospheric effects (steam, lighting, equipment hum)
 
-### 2. Individual Room Interface  
-**Create**: Full-screen immersive room environments
-
-**Implementation Details**:
-- **Generate room backdrops**: Use image generation to create 4 distinct hydroponics room backgrounds
-  - **Room 1**: Botanical Research Bay (bright, clinical)
-  - **Room 2**: Industrial Growing Chamber (darker, mechanical)  
-  - **Room 3**: Garden Observatory (windowed, organic)
-  - **Room 4**: Experimental Lab (high-tech, colorful)
-- **Generate plant assets**: Create PNG images of 4 different plant types per room
-- **Spatial layout**: Plants positioned naturally within room environment
-- **Exit button**: Clear "← Back to Deck" button to return to main view
-
-### 3. Cursor-Based Watering System
-**Replace**: Click buttons  
-**With**: Direct plant interaction using watering can cursor
+### 2. Enhanced Cursor-Based Watering System
+**Replace**: Simple click buttons
+**With**: Advanced plant interaction mechanics
 
 **Implementation Details**:
-- **Cursor transformation**: Default cursor becomes watering can icon when in room
-- **Plant interaction**: Click and hold (or tap on mobile) directly on plant image to water
-- **Visual feedback**: Water droplet animation, plant immediate response
-- **Watering mechanics**: Each plant has individual water level and optimal range
-- **Plant states**: Visual representation of healthy/thirsty/overwatered states
+- **Cursor transformation**: Watering can cursor when hovering over plants
+- **Variable watering**: Click and hold to control water amount (longer hold = more water)
+- **Precision watering**: Different plant areas respond differently (roots vs leaves)
+- **Visual feedback**: Water droplet animations, immediate plant response, splash effects
+- **Audio cues**: Different sound effects for optimal vs excessive watering
 
-### 4. Enhanced Plant Management System
-**Expand**: From 4 plants total to 16 plants (4 per room)
+### 3. Advanced Plant Mechanics
+**Expand**: From simple hydration bars to complex plant behaviors
 
 **Implementation Details**:
-- **Room difficulty scaling**: 
-  - Room 1: Slow water depletion (beginner)
-  - Room 2: Medium depletion 
-  - Room 3: Fast depletion
-  - Room 4: Variable/chaotic depletion (expert)
-- **Plant variety**: Each room has different plant species with unique requirements
-- **Health tracking**: Individual plant health affects overall room health
-- **Failure conditions**: Room "fails" if too many plants become unhealthy
+- **Multi-stage watering**: Each plant requires different watering techniques
+  - **Succulent**: Infrequent deep watering (click and hold for 2 seconds)
+  - **Fern**: Light frequent misting (quick clicks on leaves)
+  - **Rose**: Steady root watering (medium hold on soil area)
+  - **Bonsai**: Precise watering schedule (specific timing requirements)
+- **Plant mood indicators**: Visual cues showing plant "personality" and needs
+- **Watering efficiency**: Reward precise watering with bonus points/time
+- **Over-watering consequences**: Immediate visual feedback with recovery mechanics
+
+### 4. Enhanced Visual Plant States
+**Create**: Rich, detailed plant asset system
+
+**Implementation Details**:
+- **Plant species**: 4 distinct plants with unique visual characteristics
+- **Health states**: Each plant shows 3-4 visual states (thriving, healthy, thirsty, critical)
+- **Animation states**: Subtle movement, growth responses, drooping/perking animations
+- **Interactive zones**: Different plant areas (soil, stem, leaves) highlight on hover
 
 ## 🎨 **Image Generation Requirements**
 
-### Room Backdrop Assets (Generate 4 Images)
-1. **Botanical Research Bay**: Clean, bright laboratory with hydroponic equipment
-2. **Industrial Growing Chamber**: Darker, mechanical environment with pipes and tanks  
-3. **Garden Observatory**: Windowed space with natural light and organic elements
-4. **Experimental Lab**: High-tech setup with colorful lighting and advanced equipment
+### Room Backdrop Asset (Generate 1 Image)
+**Botanical Research Bay**: Clean, bright laboratory hydroponics room
+- **Environment**: Professional research facility with hydroponic equipment
+- **Details**: Growing stations, monitoring equipment, control panels, ambient lighting
+- **Atmosphere**: Clinical but organic, high-tech plant care facility
+- **Resolution**: 1200x800px (landscape orientation)
+- **Style**: Retro-futuristic Star Trek aesthetic with teal/gold color scheme
+- **File format**: WebP or JPG optimized for web
 
-**Specifications**: 
-- Resolution: 1200x800px (landscape orientation)
-- Style: Retro-futuristic Star Trek aesthetic
-- Color palette: Teal/gold theme consistency
-- File format: WebP or JPG optimized for web
+### Plant Asset Generation (Generate 12 Plant Images)
+**4 Plant species, each with 3 health states = 12 total plant images**
 
-### Plant Asset Generation (Generate 16 Plant Images)
-**4 Plants per room, each with 3 health states = 48 total plant state images**
-
-**Plant Types by Room**:
-- **Room 1**: Crimson Nova Rose, Celestial Spiral Fern, Mini Enterprise Bonsai, Desert Star Succulent
-- **Room 2**: Industrial variants of same species (darker, more mechanical styling)
-- **Room 3**: Garden variants (brighter, more natural styling)  
-- **Room 4**: Experimental variants (unusual colors, high-tech modifications)
+**Plant Species**:
+1. **Crimson Nova Rose**: Elegant flowering plant with deep red blooms
+2. **Celestial Spiral Fern**: Delicate fronds with spiral growth pattern
+3. **Mini Enterprise Bonsai**: Compact tree with structured, manicured appearance
+4. **Desert Star Succulent**: Geometric succulent with star-shaped arrangement
 
 **Health States per Plant**:
-- **Healthy**: Vibrant, upright, proper color
-- **Thirsty**: Drooping, yellowing, wilted
-- **Overwatered**: Dark, soggy, brown edges
+- **Healthy/Thriving**: Vibrant colors, upright posture, optimal appearance
+- **Thirsty**: Slight drooping, less vibrant colors, showing stress
+- **Critical**: Significant wilting, browning edges, obvious distress
 
 **Specifications**:
 - Resolution: 300x400px (portrait orientation)
 - Transparent background (PNG format)
-- Consistent lighting and perspective
+- Consistent lighting and perspective within room environment
 - Clear visual distinction between health states
+- Interactive zones clearly defined (soil area, stem, leaves)
 
 ## 🎨 **Design Constraints & Guidelines**
 
@@ -159,7 +152,7 @@ js/
 - **No New Game Mechanics**: Keep existing timer, scoring, power-up system
 - **No External Dependencies**: No new frameworks or libraries
 - **No Framework Changes**: Work within existing vanilla JS structure
-- **Preserve Audio**: Refactor existing audio code into audio-manager.js module
+- **Preserve Modular Architecture**: Build on existing ultra-modular foundation, don't restructure
 
 ## 📁 **Code Organization & File Structure**
 
@@ -210,164 +203,185 @@ hydroponic-hero/
 - **Configuration-Driven**: JSON configs for easy modifications
 
 **🔧 Core Systems Ready for Extension**:
-- **Room System**: `js/systems/rooms.js` - Ready for multi-room navigation
-- **Plant System**: `js/plants/` - Designed for room-specific plant variants
-- **Event Bus**: `js/core/events.js` - Handles inter-system communication
-- **Engine**: `js/core/engine.js` - Orchestrates all systems efficiently
+- **Room System**: `js/systems/rooms.js` - Currently placeholder, ready for 4-room navigation implementation
+- **Plant System**: `js/plants/manager.js` & `js/plants/renderer.js` - Designed for extension to room-specific plant variants
+- **Event Bus**: `js/core/events.js` - Handles inter-system communication with room/plant events already defined
+- **Engine**: `js/core/engine.js` - Orchestrates all systems, ready for room coordination
+- **Audio System**: `js/systems/audio.js` - Fully functional, ready for room-specific audio cues
+- **Input System**: `js/interactions/input.js` - Ready for cursor transformation and direct plant interaction
 
 ### **Agent Implementation Strategy**
 
-**Instead of Refactoring**: Agent builds on existing modular foundation
-**Room Expansion**: Add new room classes in `js/rooms/`
-**Plant Variants**: Extend plant system with room-specific behavior
-**Asset Integration**: Generated images slot into prepared folder structure
-**UI Enhancement**: Cursor and interaction systems already separated
+**Building on Existing Foundation**: Agent enhances the existing ultra-modular architecture
+**Room System Expansion**: Implement multi-room navigation using `js/systems/rooms.js`
+**Plant System Extension**: Extend `js/plants/manager.js` and `js/plants/renderer.js` for room-specific variants
+**Asset Integration**: Generated images integrate with existing asset folder structure
+**Event-Driven Enhancement**: Use established EventBus pattern for room transitions and plant interactions
 
-### **Files to Create/Modify**
+### **Files to Modify/Extend**
 
-### Primary Files (Major Changes)
-- `index.html` - Add module script imports, restructure for room navigation
-- `style.css` - New room layouts, cursor states, plant positioning
-- `main.js` - **REFACTOR to entry point only**, import modules
+#### Core System Extensions (Build on Existing)
+- `js/systems/rooms.js` - Implement 4-room navigation system (currently placeholder)
+- `js/plants/manager.js` - Extend for 16 plants across 4 rooms with room-specific logic
+- `js/plants/renderer.js` - Update for room environments and cursor-based watering
+- `js/interactions/input.js` - Add cursor transformation and direct plant clicking
+- `js/ui/screens.js` - Add room view screens and navigation transitions
 
-### New JavaScript Modules (Create)
-- `js/game-state.js` - Extract state management from main.js
-- `js/room-manager.js` - Room navigation and health tracking
-- `js/plant-system.js` - Plant interaction and health logic
-- `js/ui-controller.js` - DOM updates and animations
-- `js/audio-manager.js` - Refactor existing audio code
-- `js/utils.js` - Shared utility functions
+#### Configuration and Assets (Create/Add)
+- `config/room-config.json` - Single room definition with 4 plant assignments and mechanics
+- `assets/rooms/botanical-bay.jpg` - Room backdrop image (generated)
+- `assets/plants/room1/` - 12 plant state images (generated - 4 plants × 3 states)
+- `assets/ui/cursors/watering-can.png` - Watering can cursor icon (generated)
+- `assets/effects/` - Water droplet and splash effect images (optional generated assets)
 
-### New Asset Files (Generate and Add)
-- `assets/rooms/` - 4 room backdrop images
-- `assets/plants/` - 48 plant state images (16 plants × 3 states each)
-- `assets/ui/` - Watering can cursor icon
-
-### Configuration Files (Create)
-- `data/rooms-config.json` - Room and plant definitions
+#### Styling and Markup Updates
+- `index.html` - Update markup for room navigation interface
+- `style.css` - Room layouts, cursor states, plant positioning, transitions
 
 ## 🚦 **Success Criteria**
 
 ### Core Room System ✅
-- [ ] Main deck shows 4 room cards with health status indicators
-- [ ] Clicking room card enters full-screen room view with generated backdrop
-- [ ] Each room contains 4 uniquely generated plants positioned naturally
-- [ ] Clear navigation between deck view and individual rooms
-- [ ] Room health reflects aggregate plant health in that room
+- [ ] Single immersive room with detailed backdrop and natural plant positioning
+- [ ] 4 plants positioned naturally within room environment (non-grid layout)
+- [ ] Room entry transition from main menu creates immersive experience
+- [ ] Clear visual hierarchy with plants as focal points
+- [ ] Room atmosphere enhances Star Trek hydroponics theme
+
+### Advanced Interaction System ✅
+- [ ] Cursor transforms to watering can when hovering over plants
+- [ ] Variable watering mechanics (click duration affects water amount)
+- [ ] Different plant zones respond to interaction (soil, leaves, stem)
+- [ ] Precision watering rewards with visual/audio feedback
+- [ ] Over-watering has immediate visual consequences with recovery mechanics
+- [ ] Mobile touch interaction supports hold-and-release watering
 
 ### Code Organization ✅
-- [ ] **Modular JavaScript structure** with proper separation of concerns
-- [ ] main.js serves as entry point only, imports other modules
-- [ ] Room navigation logic properly separated into room-manager.js
-- [ ] Plant system logic contained in plant-system.js
-- [ ] UI updates centralized in ui-controller.js
-- [ ] Audio system refactored into audio-manager.js module
+- [ ] **Modular JavaScript structure** maintained and extended properly
+- [ ] Room logic implemented in existing `js/systems/rooms.js` for single room
+- [ ] Plant system logic extended in existing `js/plants/manager.js` and `js/plants/renderer.js`
+- [ ] Advanced interaction mechanics added to existing `js/interactions/input.js`
+- [ ] UI transitions coordinated through existing `js/ui/screens.js`
+- [ ] Audio system enhanced with new watering sound effects in `js/systems/audio.js`
+- [ ] EventBus communication pattern used for all enhanced mechanics
 
 ### Interaction System ✅
-- [ ] Cursor becomes watering can when in room view
-- [ ] Direct clicking on plant images triggers watering action
-- [ ] Plants show immediate visual response to watering
-- [ ] Plants cycle through generated health state images based on water level
-- [ ] Mobile touch interaction works smoothly
+- [ ] Cursor becomes watering can when hovering over plants
+- [ ] Variable watering system responds to click duration and plant zones
+- [ ] Plants show immediate visual response to different watering techniques
+- [ ] Each plant species has unique optimal watering method and timing
+- [ ] Visual feedback clearly communicates watering effectiveness
+- [ ] Over-watering and under-watering have distinct visual states and recovery paths
+- [ ] Mobile touch interaction supports pressure-sensitive watering
 
 ### Visual Quality ✅
-- [ ] All room backdrops generated and thematically appropriate
-- [ ] All plant images generated with clear health state distinctions
-- [ ] Room environments feel immersive and distinct from each other
-- [ ] Plant positioning creates natural, non-grid room layouts
-- [ ] Overall aesthetic maintains Star Trek hydroponics theme
+- [ ] Room backdrop generated with detailed hydroponics laboratory environment
+- [ ] All 4 plant species generated with clear health state distinctions and personality
+- [ ] Room environment feels immersive with natural plant positioning
+- [ ] Plant animations and state transitions are smooth and responsive
+- [ ] Interactive zones (soil, leaves, stem) are visually clear and intuitive
+- [ ] Water effects and visual feedback enhance the watering experience
+- [ ] Overall aesthetic maintains Star Trek hydroponics theme with enhanced detail
 
 ### Game Balance ✅
-- [ ] Room difficulty scaling creates meaningful strategic choices
-- [ ] 90-second timer creates appropriate urgency across all rooms
-- [ ] Power-up system works effectively with multi-room gameplay
-- [ ] Player can realistically manage all 4 rooms within time limit
+- [ ] Each plant species requires different watering techniques creating strategic depth
+- [ ] Precision watering rewards create skill-based gameplay progression
+- [ ] 90-second timer creates appropriate urgency for mastering 4 plant care techniques
+- [ ] Power-up system works effectively with enhanced watering mechanics
+- [ ] Player can realistically master all 4 plant types within time limit
+- [ ] Difficulty curve allows learning each plant's optimal care method
 
 ### Technical Requirements ✅
-- [ ] Mobile responsive design maintained across all room views
-- [ ] High contrast mode functions in both deck and room views
-- [ ] Performance remains smooth with all generated assets
-- [ ] Game can be played and tested by agent for balance validation
+- [ ] Mobile responsive design maintained with touch-friendly watering mechanics
+- [ ] High contrast mode functions with enhanced visual elements
+- [ ] Performance remains smooth with detailed room environment and plant animations
+- [ ] Game can be played and tested by agent for mechanics validation
+- [ ] Enhanced interaction system works smoothly across devices
 
 ## 🎯 **Implementation Priority Order**
 
-1. **Asset Generation & Room System**
-   - Generate 4 room backdrop images and 48 plant state images
-   - Implement room navigation using existing room system foundation
-   - Create room-specific plant variants and positioning
+1. **Asset Generation & Room Environment**
+   - Generate 1 detailed room backdrop and 12 plant state images (4 plants × 3 states)
+   - Implement immersive room view in existing `js/systems/rooms.js`
+   - Create room configuration file with plant positioning and mechanics
 
-2. **Cursor & Interaction Enhancement**
-   - Implement watering can cursor system
-   - Add direct plant clicking using existing interaction framework
-   - Enhanced visual feedback with animations
+2. **Enhanced Plant Mechanics & Interaction**
+   - Extend `js/plants/manager.js` for advanced watering mechanics (variable timing, zones)
+   - Update `js/plants/renderer.js` for detailed plant states and animations
+   - Implement plant-specific watering requirements and feedback systems
 
-3. **Game Logic Expansion**
-   - Expand plant system to 16 plants across 4 rooms
-   - Implement room difficulty scaling using existing architecture
-   - Update timer and power-up mechanics for multi-room gameplay
+3. **Advanced Cursor & Input System**
+   - Extend `js/interactions/input.js` for variable watering (click duration, zones)
+   - Add cursor transformation and interactive zone highlighting
+   - Implement precision watering feedback with visual and audio cues
 
-4. **Polish & Integration**
-   - **Agent play-testing**: Validate balance and difficulty
-   - Mobile responsiveness and cross-browser testing
-   - Performance optimization with asset loading
+4. **Visual Polish & Integration** 
+   - Update `js/ui/screens.js` for immersive room transitions
+   - Add water effects, plant animations, and atmospheric details
+   - Polish room environment with responsive plant positioning
+
+5. **Mechanics Testing & Balance**
+   - **Agent play-testing**: Validate each plant's watering mechanics feel distinct
+   - Fine-tune watering timings and precision requirements
+   - Optimize performance and mobile responsiveness
 
 ## 🎮 **Agent Testing Protocol**
 
 **Mandatory**: After implementation, play-test the game yourself to validate:
-- **Room navigation**: Can you easily move between rooms?
-- **Plant management**: Is it possible to maintain all rooms within 90 seconds?
-- **Difficulty progression**: Do rooms feel appropriately challenging?
-- **Visual clarity**: Are plant health states clearly distinguishable?
-- **Mobile experience**: Does touch interaction feel natural?
+- **Watering mechanics**: Does each plant feel unique and require different techniques?
+- **Precision feedback**: Can you learn the optimal watering method for each plant?
+- **Visual clarity**: Are plant health states and interactive zones clearly distinguishable?
+- **Mobile experience**: Does touch-based watering feel natural and responsive?
+- **Skill progression**: Can players improve their watering technique over multiple attempts?
+- **Balance**: Is it challenging but achievable to maintain all 4 plants for 90 seconds?
 
-**Balance Tuning**: Adjust room depletion rates based on your play-testing experience to ensure the game is challenging but achievable.
+**Mechanics Tuning**: Adjust watering sensitivity, timing requirements, and visual feedback based on your play-testing experience to ensure each plant feels distinctly different but learnable.
 
 ## 💡 **Creative Freedom Guidelines**
 
 ### Encouraged Innovations
-- **Atmospheric room environments**: Add subtle environmental effects (steam, particle systems, lighting)
-- **Plant personality**: Each plant species can have unique visual characteristics and animations
-- **Room themes**: Make each room feel distinctly different (industrial vs. garden vs. research vs. experimental)
-- **Smooth transitions**: Room entry/exit animations that enhance immersion
-- **Smart UI placement**: Health indicators and controls that don't obstruct the room view
+- **Atmospheric room environment**: Add subtle environmental effects (steam, lighting, equipment ambience)
+- **Plant personality**: Each plant species should feel alive with unique visual characteristics and response animations
+- **Watering technique mastery**: Different plants reward different watering approaches (quick vs slow, targeted vs broad)
+- **Precision feedback systems**: Visual and audio cues that help players learn optimal watering techniques
+- **Smart interaction zones**: Clear visual indicators for different plant areas (soil, stem, leaves) with appropriate responses
 
 ### Image Generation Style Guidelines
-- **Room backdrops**: Retro-futuristic Star Trek aesthetic with teal/gold color schemes
-- **Plant assets**: Clear, distinctive plant species with obvious health state differences  
-- **Consistency**: Maintain lighting and perspective consistency within each room
-- **Optimization**: Generate web-optimized images that load quickly
+- **Room backdrop**: Detailed, immersive retro-futuristic hydroponics laboratory with Star Trek aesthetic
+- **Plant assets**: Distinctive species with obvious health state differences and clear interactive zones
+- **Consistency**: Maintain lighting and perspective that integrates plants naturally into room environment
+- **Optimization**: Generate web-optimized images that load quickly and scale well on mobile
 
 ### Gameplay Refinements
-- **Room difficulty**: Make difficulty differences feel meaningful but not frustrating
-- **Strategic depth**: Players should need to prioritize which rooms to visit first
-- **Visual feedback**: Immediate plant responses to watering should feel satisfying
-- **Progressive challenge**: Later rooms or time periods should feel more intense
+- **Plant-specific mechanics**: Make each plant's optimal care feel meaningfully different
+- **Skill-based progression**: Reward players who learn precise watering techniques
+- **Immediate feedback**: Plant responses should feel satisfying and clearly communicate success/failure
+- **Strategic depth**: Players should need to prioritize which plants need attention when
 
 ## 🔄 **Handback Requirements**
 
 When complete, provide:
 
 ### Technical Summary
-- List of all generated assets with file locations
-- Summary of room navigation system implementation
-- Performance considerations with multiple room environments
-- Mobile compatibility validation results
+- List of all generated assets with file locations (1 room + 12 plant images + cursor)
+- Summary of enhanced watering mechanics implementation
+- Performance considerations with detailed room environment and plant animations
+- Mobile compatibility validation results for touch-based watering
 
-### Game Balance Report
-- **Agent play-testing results**: Your experience playing the completed game
-- Room difficulty assessment and any balance adjustments made
-- Recommended optimal strategies for players
-- Any edge cases or potential improvements identified
+### Game Mechanics Report
+- **Agent play-testing results**: Your experience mastering each plant's watering technique
+- Plant mechanics assessment and any balance adjustments made for distinct feel
+- Recommended optimal watering strategies for each plant species
+- Any edge cases or potential improvements identified in watering system
 
 ### Asset Documentation
-- Description of each room's visual theme and atmosphere
-- Plant species assignments and visual characteristics
-- Health state visual differences and how they communicate status
-- Cursor interaction feedback and responsiveness
+- Description of room's visual theme and atmospheric details
+- Plant species characteristics and unique watering requirements
+- Health state visual differences and how they communicate plant needs
+- Interactive zone design and cursor feedback responsiveness
 
 ---
 
-**Complexity Level**: Significant architectural enhancement with asset generation  
-**Goal**: Transform simple plant care into engaging room-based hydroponics management game
+**Complexity Level**: Focused single-room enhancement with advanced interaction mechanics  
+**Goal**: Create a polished, immersive hydroponics room with unique plant care mechanics that can serve as a template for future room expansion
 
-**Key Success Indicator**: The agent should be able to play and enjoy the completed game, validating that it's engaging enough for Mom's birthday celebration while maintaining the technical quality standards of the Birthday Arcade collection.
+**Key Success Indicator**: The agent should be able to play and master the watering techniques for all 4 plants, validating that the enhanced mechanics create engaging, skill-based gameplay that's both intuitive and rewarding to improve at.
